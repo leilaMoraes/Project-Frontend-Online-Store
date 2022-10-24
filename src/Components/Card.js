@@ -129,8 +129,8 @@ class Card extends React.Component {
           to="/shoppingCart"
         >
           <span data-testid="shopping-cart-size">
-            {sum}
             <AiOutlineShoppingCart size={ 35 } color="rgb(0, 0, 0)" />
+            {sum}
           </span>
         </Link>
         <form

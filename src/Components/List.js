@@ -11,7 +11,7 @@ class List extends React.Component {
       categories: [],
       produtos: [],
       nome: '',
-      // loading: true,
+      loading: true,
       cartProducts: [],
       sum: 0,
     };
@@ -28,7 +28,7 @@ class List extends React.Component {
     const categorias = await getCategories();
     this.setState({
       categories: categorias,
-      // loading: false,
+      loading: false,
     });
   };
 
@@ -38,12 +38,13 @@ class List extends React.Component {
   };
 
   onInputbutton = async ({ target }) => {
-    // this.setState({ loading: true });
+    this.setState({ loading: true });
     const { nome } = this.state;
     const inputCategory = await getProductsFromCategoryAndQuery(target.name, nome);
     const resultado = inputCategory.results;
-    this.setState({ produtos: resultado, nome: '',
-    // loading: false
+    this.setState({ produtos: resultado,
+      nome: '',
+      loading: false,
     });
   };
 
@@ -86,7 +87,7 @@ class List extends React.Component {
   };
 
   render() {
-    const { categories, nome, produtos, sum } = this.state;
+    const { categories, nome, produtos, sum, loading } = this.state;
     return (
       <div>
         <label htmlFor="query-input">
@@ -107,11 +108,12 @@ class List extends React.Component {
           </button>
         </label>
         <Link data-testid="shopping-cart-button" to="/shoppingCart">
+          <AiOutlineShoppingCart size={ 35 } color="rgb(0, 0, 0)" />
           <span data-testid="shopping-cart-size">
             {sum}
           </span>
-          <AiOutlineShoppingCart size={ 35 } color="rgb(0, 0, 0)" />
         </Link>
+        {loading && <h3>Carregando...</h3>}
         {categories.length === 0 ? (
           <h2 data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma
@@ -134,7 +136,6 @@ class List extends React.Component {
             </div>
           )))}
         <section>
-          {/* {loading && <h3>Carregando...</h3>} */}
           {produtos.length === 0 ? <h2>Nenhum produto foi encontrado</h2>
             : (
               produtos.map((prod) => (
